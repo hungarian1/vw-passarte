@@ -15,7 +15,7 @@ CREATE TABLE Trabalhador (
     num_telefone CHAR(9),
     data_nascimento DATE,
     PRIMARY KEY (idTrabalhador)
-)  ENGINE=INNODB;
+)  ENGINE=InnoDB;
 
 -- ------------------------------------------------------------------------
 -- Tabela: Visitante
@@ -34,7 +34,7 @@ CREATE TABLE Visitante (
     PRIMARY KEY (idVisitante),
     CONSTRAINT fk_trabalhador FOREIGN KEY (idTrabalhador)
         REFERENCES Trabalhador (idTrabalhador)
-)  ENGINE=INNODB;
+)  ENGINE=InnoDB;
 
 -- ------------------------------------------------------------------------
 -- Tabela: Exposição
@@ -47,7 +47,7 @@ CREATE TABLE Exposicao (
     data_inicio DATE NOT NULL,
     data_fim DATE,
     PRIMARY KEY (idExposicao)
-)  ENGINE=INNODB
+)  ENGINE=InnoDB;
 
 -- -----------------------------------------------------------------------
 -- Tabela: Inscrição
@@ -65,7 +65,7 @@ CREATE TABLE Inscricao (
         REFERENCES Visitante (idVisitante),
     CONSTRAINT fk_inscricao_exposicao FOREIGN KEY (idExposicao)
         REFERENCES Exposicao (idExposicao)
-)  ENGINE=INNODB
+)  ENGINE=InnoDB;
 
 -- ------------------------------------------------------------------------
 -- Tabela: Artista
@@ -81,7 +81,7 @@ CREATE TABLE Artista (
     educacao VARCHAR(75),
     descricao VARCHAR(254),
     PRIMARY KEY (idArtista)
-)  ENGINE=INNODB
+)  ENGINE=InnoDB;
 
 
 -- -----------------------------------------------------------------------
@@ -181,3 +181,17 @@ CREATE TABLE Exposicao_Obra (
     CONSTRAINT fk_obra_exposicao_obra
         FOREIGN KEY (idObra) REFERENCES Obra(idObra)
 ) ENGINE=InnoDB;
+
+-- -----------------------------------------------------------------------
+-- View: Derivação das inscrições por Exposicão
+-- -----------------------------------------------------------------------
+
+CREATE VIEW Inscricao_Exposicao AS
+SELECT
+    e.idExposicao,
+    e.nome AS exposicao,
+    COUNT(*) AS total_inscricoes
+FROM Exposicao e
+JOIN Inscricao i ON e.idExposicao = i.idExposicao
+GROUP BY e.idExposicao, e.nome
+ORDER BY e.idExposicao, total_inscricoes DESC;
