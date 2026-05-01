@@ -81,7 +81,7 @@ CREATE TABLE Artista (
     educacao VARCHAR(75),
     descricao VARCHAR(254),
     PRIMARY KEY (idArtista)
-)  ENGINE=InnoDB;
+) ENGINE=InnoDB;
 
 
 -- -----------------------------------------------------------------------
