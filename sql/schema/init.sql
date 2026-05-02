@@ -10,10 +10,11 @@ CREATE TABLE Trabalhador (
     idTrabalhador INT NOT NULL AUTO_INCREMENT,
     nome VARCHAR(75) NOT NULL,
     genero ENUM('HOMEM', 'MULHER') NOT NULL,
+    data_nascimento DATE,
     nacionalidade VARCHAR(75),
     nif CHAR(9),
+    email VARCHAR(254),
     num_telefone CHAR(9),
-    data_nascimento DATE,
     PRIMARY KEY (idTrabalhador)
 )  ENGINE=InnoDB;
 
@@ -24,12 +25,12 @@ CREATE TABLE Trabalhador (
 CREATE TABLE Visitante (
     idVisitante INT NOT NULL AUTO_INCREMENT,
     nome VARCHAR(75) NOT NULL,
-    data_nascimento DATE,
-    nif CHAR(9),
     genero ENUM('HOMEM', 'MULHER'),
+    data_nascimento DATE,
     nacionalidade VARCHAR(75),
-    telefone CHAR(9),
+    nif CHAR(9),
     email VARCHAR(254),
+    num_telefone CHAR(9),
     idTrabalhador INT NOT NULL,
     PRIMARY KEY (idVisitante),
     CONSTRAINT fk_trabalhador FOREIGN KEY (idTrabalhador)
@@ -56,7 +57,7 @@ CREATE TABLE Exposicao (
 CREATE TABLE Inscricao (
     idInscricao INT NOT NULL AUTO_INCREMENT,
     data_visita DATE NOT NULL,
-    valor_pago DECIMAL(5 , 2 ),
+    valor_pago DECIMAL(5, 2),
     estado ENUM('PENDENTE', 'USADA', 'CANCELADA') DEFAULT 'PENDENTE',
     idVisitante INT NOT NULL,
     idExposicao INT NOT NULL,
@@ -74,9 +75,9 @@ CREATE TABLE Inscricao (
 CREATE TABLE Artista (
     idArtista INT NOT NULL AUTO_INCREMENT,
     nome VARCHAR(75) NOT NULL,
+    genero ENUM('HOMEM', 'MULHER', 'DESCONHECIDO') NOT NULL DEFAULT 'DESCONHECIDO',
     data_nascimento DATE,
     data_falecimento DATE,
-    genero ENUM('HOMEM', 'MULHER', 'DESCONHECIDO') NOT NULL DEFAULT 'DESCONHECIDO',
     nacionalidade VARCHAR(75),
     educacao VARCHAR(75),
     descricao VARCHAR(254),
