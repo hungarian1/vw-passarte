@@ -12,8 +12,8 @@ CREATE TABLE Trabalhador (
     genero ENUM('HOMEM', 'MULHER') NOT NULL,
     data_nascimento DATE,
     nacionalidade VARCHAR(75),
-    nif CHAR(9),
-    email VARCHAR(254),
+    nif CHAR(9) UNIQUE,
+    email VARCHAR(254) UNIQUE,
     num_telefone CHAR(9),
     PRIMARY KEY (idTrabalhador)
 )  ENGINE=InnoDB;
@@ -28,8 +28,8 @@ CREATE TABLE Visitante (
     genero ENUM('HOMEM', 'MULHER'),
     data_nascimento DATE,
     nacionalidade VARCHAR(75),
-    nif CHAR(9),
-    email VARCHAR(254),
+    nif CHAR(9) UNIQUE,
+    email VARCHAR(254) UNIQUE,
     num_telefone CHAR(9),
     idTrabalhador INT NOT NULL,
     PRIMARY KEY (idVisitante),
@@ -43,10 +43,10 @@ CREATE TABLE Visitante (
 
 CREATE TABLE Exposicao (
     idExposicao INT NOT NULL AUTO_INCREMENT,
-    nome VARCHAR(75),
+    nome VARCHAR(75) NOT NULL,
     tema VARCHAR(75),
     data_inicio DATE NOT NULL,
-    data_fim DATE,
+    data_fim DATE NOT NULL,
     PRIMARY KEY (idExposicao)
 )  ENGINE=InnoDB;
 
@@ -57,7 +57,7 @@ CREATE TABLE Exposicao (
 CREATE TABLE Inscricao (
     idInscricao INT NOT NULL AUTO_INCREMENT,
     data_visita DATE NOT NULL,
-    valor_pago DECIMAL(5, 2),
+    valor_pago DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
     estado ENUM('PENDENTE', 'USADA', 'CANCELADA') DEFAULT 'PENDENTE',
     idVisitante INT NOT NULL,
     idExposicao INT NOT NULL,
@@ -109,6 +109,7 @@ CREATE TABLE Tipo_Arte (
 
 CREATE TABLE Obra (
     idObra              INT NOT NULL AUTO_INCREMENT,
+    nome                VARCHAR(75) NOT NULL,
     tema                VARCHAR(75),
     data_publicacao     DATE,
     descricao           VARCHAR(254),
