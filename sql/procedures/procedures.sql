@@ -19,13 +19,9 @@ BEGIN
     WHERE idInscricao = f_idInscricao;
 END$$
 
-DELIMITER ;
-
-
 -- ------------------------------------------------------------------------
 -- Altera a descrição de um artista
 -- ------------------------------------------------------------------------
-DELIMITER $$
 
 CREATE PROCEDURE fn_altera_desc_artista(
     IN f_idArtista INT,

@@ -129,7 +129,6 @@ CREATE TABLE Obra (
 CREATE TABLE Obra_Artista (
     idArtista INT NOT NULL,
     idObra INT NOT NULL,
-    papel VARCHAR(30) CHECK (papel in ('PINTOR_PRINCIPAL','COLABORADOR')),
     PRIMARY KEY (idObra, idArtista),
     CONSTRAINT fk_obra_artista_obra
         FOREIGN KEY (idObra) REFERENCES Obra(idObra),

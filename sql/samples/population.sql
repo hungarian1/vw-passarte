@@ -88,43 +88,43 @@ INSERT INTO Exposicao (nome, tema, data_inicio, data_fim) VALUES
 -- ------------------------------------------------------------------------
 -- Obras
 -- ------------------------------------------------------------------------
-INSERT INTO Obra (tema, data_publicacao, descricao, idMovimento, idTipo) VALUES
-('Retrato de um Homem Jovem', '1490-01-01', 'Estudo anatómico e retrato de expressão serena.',                 1, 1),
-('Estudo de Mãos',            '1495-01-01', 'Desenho preparatório com detalhe anatómico excecional.',          1, 6),
-('Composição Sagrada',        '1510-01-01', 'Cena religiosa de grande mestria técnica.',                       1, 1),
-('Judith e Holofernes',       '1614-01-01', 'Representação dramática e violenta de coragem feminina.',         2, 1),
-('Cena de Batalha Noturna',   '1620-01-01', 'Composição barroca de luz e sombra intensa.',                    2, 1),
-('Jardim ao Entardecer',      '1880-06-01', 'Pinceladas soltas capturam a luz dourada do fim do dia.',         3, 1),
-('Reflexos no Rio',           '1885-04-01', 'A superfície da água fragmenta formas e cores.',                  3, 7),
-('Campo de Papoilas',         '1873-01-01', 'Paisagem aberta com figuras entre flores vermelhas.',             3, 1),
-('Relógios Derretidos',       '1931-01-01', 'Exploração onírica do tempo e da memória.',                      4, 1),
-('Metamorfose do Narciso',    '1937-01-01', 'Dupla imagem de figura humana transformando-se em flor.',         4, 1),
-('Guitarra Fragmentada',      '1913-01-01', 'Decomposição geométrica de um instrumento musical.',              5, 1),
-('Retrato em Cubos',          '1910-01-01', 'Rosto humano desconstruído em múltiplas perspetivas simultâneas.',5, 1),
-('Flor de Georgia',           '1926-01-01', 'Flor branca ampliada, abstraindo forma e sensualidade.',          8, 1),
-('Deserto Vermelho',          '1930-01-01', 'Paisagem árida do Novo México em tons quentes.',                  8, 1);
+INSERT INTO Obra (nome, tema, data_publicacao, descricao, idMovimento, idTipo) VALUES
+('Retrato de um Homem Jovem', 'Retrato de um Homem Jovem', '1490-01-01', 'Estudo anatómico e retrato de expressão serena.',                 1, 1),
+('Estudo de Mãos',            'Estudo de Mãos',            '1495-01-01', 'Desenho preparatório com detalhe anatómico excecional.',          1, 6),
+('Composição Sagrada',        'Composição Sagrada',        '1510-01-01', 'Cena religiosa de grande mestria técnica.',                       1, 1),
+('Judith e Holofernes',       'Judith e Holofernes',       '1614-01-01', 'Representação dramática e violenta de coragem feminina.',         2, 1),
+('Cena de Batalha Noturna',   'Cena de Batalha Noturna',   '1620-01-01', 'Composição barroca de luz e sombra intensa.',                    2, 1),
+('Jardim ao Entardecer',      'Jardim ao Entardecer',      '1880-06-01', 'Pinceladas soltas capturam a luz dourada do fim do dia.',         3, 1),
+('Reflexos no Rio',           'Reflexos no Rio',           '1885-04-01', 'A superfície da água fragmenta formas e cores.',                  3, 7),
+('Campo de Papoilas',         'Campo de Papoilas',         '1873-01-01', 'Paisagem aberta com figuras entre flores vermelhas.',             3, 1),
+('Relógios Derretidos',       'Relógios Derretidos',       '1931-01-01', 'Exploração onírica do tempo e da memória.',                      4, 1),
+('Metamorfose do Narciso',    'Metamorfose do Narciso',    '1937-01-01', 'Dupla imagem de figura humana transformando-se em flor.',         4, 1),
+('Guitarra Fragmentada',      'Guitarra Fragmentada',      '1913-01-01', 'Decomposição geométrica de um instrumento musical.',              5, 1),
+('Retrato em Cubos',          'Retrato em Cubos',          '1910-01-01', 'Rosto humano desconstruído em múltiplas perspetivas simultâneas.',5, 1),
+('Flor de Georgia',           'Flor de Georgia',           '1926-01-01', 'Flor branca ampliada, abstraindo forma e sensualidade.',          8, 1),
+('Deserto Vermelho',          'Deserto Vermelho',          '1930-01-01', 'Paisagem árida do Novo México em tons quentes.',                  8, 1);
 
 
 -- ------------------------------------------------------------------------
 -- Relação Obra–Artista
 -- ------------------------------------------------------------------------
-INSERT INTO Obra_Artista (idObra, idArtista, papel) VALUES
-(1,  1, 'PINTOR_PRINCIPAL'),
-(2,  1, 'PINTOR_PRINCIPAL'),
-(3,  1, 'PINTOR_PRINCIPAL'),
-(4,  5, 'PINTOR_PRINCIPAL'),
-(5,  5, 'PINTOR_PRINCIPAL'),
-(6,  6, 'PINTOR_PRINCIPAL'),
-(7,  6, 'PINTOR_PRINCIPAL'),
-(8,  6, 'PINTOR_PRINCIPAL'),
-(9,  3, 'PINTOR_PRINCIPAL'),
-(10, 3, 'PINTOR_PRINCIPAL'),
-(11, 4, 'PINTOR_PRINCIPAL'),
-(12, 4, 'PINTOR_PRINCIPAL'),
-(10, 4, 'COLABORADOR'),
-(13, 7, 'PINTOR_PRINCIPAL'),
-(14, 7, 'PINTOR_PRINCIPAL'),
-(3,  8, 'COLABORADOR');
+INSERT INTO Obra_Artista (idObra, idArtista) VALUES
+(1,  1),
+(2,  1),
+(3,  1),
+(4,  5),
+(5,  5),
+(6,  6),
+(7,  6),
+(8,  6),
+(9,  3),
+(10, 3),
+(11, 4),
+(12, 4),
+(10, 4),
+(13, 7),
+(14, 7),
+(3,  8);
 
 
 -- ------------------------------------------------------------------------
