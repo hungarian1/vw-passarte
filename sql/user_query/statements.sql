@@ -63,7 +63,7 @@ JOIN Obra o ON o.idObra = eo.idObra
 GROUP BY e.idExposicao
 ORDER BY e.idExposicao;
 
--- Em que exposições uma obra esteve
+-- Relatório das Obras
 SELECT o.idObra, o.nome, GROUP_CONCAT(e.nome SEPARATOR ', ') AS exposicoes
 FROM Obra o
 JOIN Exposicao_Obra eo ON o.idObra = eo.idObra
