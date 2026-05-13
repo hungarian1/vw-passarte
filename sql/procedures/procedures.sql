@@ -34,3 +34,5 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+GRANT EXECUTE ON PROCEDURE galeria_arte.fn_altera_estado_insc TO 'trabalhador'@'localhost';

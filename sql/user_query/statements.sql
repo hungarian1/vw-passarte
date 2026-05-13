@@ -16,7 +16,7 @@ SELECT AVG(valor_pago) FROM Inscricao;
 -- Valor máximo pago na inscrição
 SELECT MAX(valor_pago) FROM Inscricao;
 
--- Valor médio pago na inscrição por cliente em cada exposicão (ordenado)
+-- Valor médio pago na inscrição por visitante em cada exposicão (ordenado)
 SELECT AVG(i.valor_pago), v.nome AS visitante, e.nome AS exposicao
 FROM Inscricao i
 JOIN Visitante v ON i.idVisitante = v.idVisitante
@@ -91,10 +91,6 @@ FROM Inscricao i
 JOIN Visitante v ON i.idVisitante = v.idVisitante
 GROUP BY v.nome
 ORDER BY total_gasto DESC;
-
--- Inscrições com valor pago acima da média
-SELECT * FROM Inscricao
-WHERE valor_pago > (SELECT AVG(valor_pago) FROM Inscricao);
 
 -- Agrupamento de clientes por estado da sua inscrição por exposição
 SELECT v.nome AS visitante, e.nome AS exposicao, i.estado AS inscricao

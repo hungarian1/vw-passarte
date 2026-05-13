@@ -2,6 +2,12 @@ CREATE SCHEMA galeria_arte;
 
 USE galeria_arte;
 
+CREATE USER 'trabalhador'@'localhost'
+IDENTIFIED BY 'trabalhador'; -- As passwords se encontram hardcoded por ser uma POC
+
+CREATE USER 'admin'@'localhost' -- Engloba tanto a direção quanto a equipe de engenheiros
+IDENTIFIED BY 'admin';
+
 -- ------------------------------------------------------------------------
 -- Tabela: Trabalhador
 -- ------------------------------------------------------------------------
@@ -196,3 +202,13 @@ FROM Exposicao e
 JOIN Inscricao i ON e.idExposicao = i.idExposicao
 GROUP BY e.idExposicao, e.nome
 ORDER BY e.idExposicao, total_inscricoes DESC;
+
+
+-- -------------------------------------------------------------------------
+-- Permissões dos usuários
+-- -------------------------------------------------------------------------
+
+GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;
+
+GRANT SELECT, INSERT, UPDATE ON Visitante.* TO 'trabalhador'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON Inscricao.* TO 'trabalhador'@'localhost';
