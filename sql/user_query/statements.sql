@@ -1,121 +1,75 @@
 -- Arquivo composto de SELECT queries para consulta na database
+
 USE galeria_arte;
 
--- Total de visitantes registrados
-SELECT COUNT(*) FROM Visitante;
-
--- Total de inscrições registradas
-SELECT COUNT(*) FROM Inscricao;
-
--- Valor mínimo pago por inscrição
-SELECT MIN(valor_pago) FROM Inscricao;
-
--- Valor médio pago na inscricão
-SELECT AVG(valor_pago) FROM Inscricao;
-
--- Valor máximo pago na inscrição
-SELECT MAX(valor_pago) FROM Inscricao;
-
--- Valor médio pago na inscrição por visitante em cada exposicão (ordenado)
-SELECT AVG(i.valor_pago), v.nome AS visitante, e.nome AS exposicao
-FROM Inscricao i
-JOIN Visitante v ON i.idVisitante = v.idVisitante
-JOIN Exposicao e ON i.idExposicao = e.idExposicao
-GROUP BY v.nome, e.nome
-ORDER BY AVG(i.valor_pago) DESC;
-
--- Receita total
-SELECT SUM(valor_pago) FROM Inscricao;
-
--- Visitante específico
-SELECT * FROM Visitante WHERE idVisitante = ?;
-
--- Artista específico
-SELECT * FROM Artista WHERE idArtista = ?;
-
--- Exposição específica
-SELECT * FROM Exposicao WHERE idExposicao = ?;
-
--- Relatório dos Visitantes
-SELECT DISTINCT
-    v.*,
-    t.nome AS trabalhador
-FROM Visitante v
-JOIN Inscricao i
-    ON v.idVisitante = i.idVisitante
-JOIN Trabalhador t
-    ON v.idTrabalhador = t.idTrabalhador
-ORDER BY v.nome;
+-- Consulta de quantidade total de visitantes, receita e inscrições
+SELECT
+  (SELECT COUNT(*) FROM Visitante) AS total_visitantes,
+  (SELECT COALESCE(SUM(valor_pago), 0) FROM Inscricao) AS receita_total,
+  (SELECT COUNT(*) FROM Inscricao) AS total_inscricoes;
 
 -- Relatório dos Artistas
-SELECT a.*, GROUP_CONCAT(o.nome SEPARATOR ', ') AS obras
+SELECT
+    a.*,
+    GROUP_CONCAT(o.nome SEPARATOR ', ') AS obras
 FROM Artista a
 JOIN Obra_Artista oa ON a.idArtista = oa.idArtista
 JOIN Obra o ON oa.idObra = o.idObra
 GROUP BY a.idArtista
 ORDER BY a.idArtista;
 
+-- Relatório dos Visitantes (Informações, trabalhador associado, total pago e quantidade de inscrições associadas)
+SELECT
+    v.*,
+    t.nome AS trabalhador,
+    COALESCE(SUM(i.valor_pago), 0) AS total_pago,
+    COUNT(i.idInscricao) AS qtd_inscricoes
+FROM Visitante v
+LEFT JOIN Inscricao i ON v.idVisitante = i.idVisitante
+JOIN Trabalhador t ON v.idTrabalhador = t.idTrabalhador
+GROUP BY v.idVisitante, v.nome, v.genero, v.data_nascimento, v.nacionalidade, v.nif, v.email, v.num_telefone, v.idTrabalhador, t.nome
+ORDER BY v.idVisitante;
+
 -- Relatório das Exposições
-SELECT e.*, GROUP_CONCAT(o.nome SEPARATOR ', ') AS obras
+SELECT
+    e.*,
+    GROUP_CONCAT(DISTINCT o.nome SEPARATOR ', ') AS obras,
+    COALESCE(SUM(i.valor_pago), 0) AS arrecadacao
 FROM Exposicao e
-JOIN Exposicao_Obra eo ON e.idExposicao = eo.idExposicao
-JOIN Obra o ON o.idObra = eo.idObra
+LEFT JOIN Exposicao_Obra eo ON e.idExposicao = eo.idExposicao
+LEFT JOIN Obra o ON o.idObra = eo.idObra
+LEFT JOIN Inscricao i ON i.idExposicao = e.idExposicao
 GROUP BY e.idExposicao
 ORDER BY e.idExposicao;
 
 -- Relatório das Obras
-SELECT o.idObra, o.nome, GROUP_CONCAT(e.nome SEPARATOR ', ') AS exposicoes
+SELECT
+    o.idObra,
+    o.nome,
+    GROUP_CONCAT(e.nome SEPARATOR ', ') AS exposicoes
 FROM Obra o
 JOIN Exposicao_Obra eo ON o.idObra = eo.idObra
 JOIN Exposicao e ON eo.idExposicao = e.idExposicao
 GROUP BY o.idObra
 ORDER BY o.idObra;
 
--- Agrupamento de exposições por Receita
-SELECT e.nome, SUM(i.valor_pago) AS receita
+-- Relatório das inscrições
+SELECT
+    i.idExposicao,
+    i.data_visita,
+    i.valor_pago,
+    i.estado,
+    v.nome,
+    e.nome
 FROM Inscricao i
-JOIN Exposicao e ON i.idExposicao = e.idExposicao
-GROUP BY e.nome
-ORDER BY SUM(i.valor_pago) DESC;
+LEFT JOIN Visitante v ON i.idVisitante = v.idVisitante
+LEFT JOIN Exposicao e ON i.idExposicao = e.idExposicao
+ORDER BY i.idExposicao, i.data_visita;
 
--- Visitantes que se inscreveram em mais de uma exposição
-SELECT v.nome AS visitante
-FROM Inscricao i
-JOIN Visitante v ON i.idVisitante = v.idVisitante
-GROUP BY v.nome
-HAVING COUNT(*) > 1;
-
--- Quanto cada visitante já gastou
-SELECT v.nome, SUM(i.valor_pago) AS total_gasto
-FROM Inscricao i
-JOIN Visitante v ON i.idVisitante = v.idVisitante
-GROUP BY v.nome
-ORDER BY total_gasto DESC;
-
--- Agrupamento de clientes por estado da sua inscrição por exposição
+-- Agrupamento de visitantes por estado da sua inscrição por exposição
 SELECT v.nome AS visitante, e.nome AS exposicao, i.estado AS inscricao
 FROM Inscricao i
 JOIN Visitante v ON i.idVisitante = v.idVisitante
-JOIN Exposicao e ON i.idVisitante = e.idExposicao
+JOIN Exposicao e ON i.idExposicao = e.idExposicao
 GROUP BY v.nome, e.nome, i.estado
 ORDER BY i.estado;
-
--- Exposições com receita abaixo da média
-SELECT e.nome, SUM(i.valor_pago) AS receita
-FROM Inscricao i
-JOIN Exposicao e ON e.idExposicao = i.idInscricao
-GROUP BY e.nome
-HAVING SUM(i.valor_pago) < (SELECT AVG(i.valor_pago) FROM Inscricao)
-ORDER BY SUM(i.valor_pago);
-
--- Exposições com receita igual ou acima da média
-SELECT e.nome, SUM(i.valor_pago) AS receita
-FROM Inscricao i
-JOIN Exposicao e ON e.idExposicao = i.idInscricao
-GROUP BY e.nome
-HAVING SUM(i.valor_pago) >= (SELECT AVG(i.valor_pago) FROM Inscricao)
-ORDER BY SUM(i.valor_pago);
-
---Exposições com nenhuma inscrição
-SELECT nome FROM Exposicao
-WHERE idExposicao NOT IN (SELECT idExposicao FROM Inscricao);
