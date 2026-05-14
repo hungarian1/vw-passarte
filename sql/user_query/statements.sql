@@ -66,10 +66,10 @@ LEFT JOIN Visitante v ON i.idVisitante = v.idVisitante
 LEFT JOIN Exposicao e ON i.idExposicao = e.idExposicao
 ORDER BY i.idExposicao, i.data_visita;
 
--- Agrupamento de visitantes por estado da sua inscrição por exposição
-SELECT v.idVisitante, v.nome AS visitante, e.nome AS exposicao, i.estado AS inscricao
+-- Agrupamento de visitantes por estado da sua inscrição por exposição efetivamente utilizada
+SELECT v.idVisitante, v.nome, COUNT(i.idInscricao) AS qtd_usadas
 FROM Inscricao i
 JOIN Visitante v ON i.idVisitante = v.idVisitante
-JOIN Exposicao e ON i.idExposicao = e.idExposicao
-GROUP BY v.idVisitante, e.nome, i.estado
-ORDER BY i.estado;
+WHERE i.estado = 'USADA'
+GROUP BY v.idVisitante, v.nome
+ORDER BY qtd_usadas DESC;
