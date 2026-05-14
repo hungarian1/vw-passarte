@@ -67,9 +67,9 @@ LEFT JOIN Exposicao e ON i.idExposicao = e.idExposicao
 ORDER BY i.idExposicao, i.data_visita;
 
 -- Agrupamento de visitantes por estado da sua inscrição por exposição
-SELECT v.nome AS visitante, e.nome AS exposicao, i.estado AS inscricao
+SELECT v.idVisitante, v.nome AS visitante, e.nome AS exposicao, i.estado AS inscricao
 FROM Inscricao i
 JOIN Visitante v ON i.idVisitante = v.idVisitante
 JOIN Exposicao e ON i.idExposicao = e.idExposicao
-GROUP BY v.nome, e.nome, i.estado
+GROUP BY v.idVisitante, e.nome, i.estado
 ORDER BY i.estado;

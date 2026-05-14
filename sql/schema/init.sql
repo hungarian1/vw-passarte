@@ -199,7 +199,7 @@ SELECT
     e.nome AS exposicao,
     COUNT(*) AS total_inscricoes
 FROM Exposicao e
-JOIN Inscricao i ON e.idExposicao = i.idExposicao
+LEFT JOIN Inscricao i ON e.idExposicao = i.idExposicao
 GROUP BY e.idExposicao, e.nome
 ORDER BY e.idExposicao, total_inscricoes DESC;
 
@@ -210,5 +210,5 @@ ORDER BY e.idExposicao, total_inscricoes DESC;
 
 GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;
 
-GRANT SELECT, INSERT, UPDATE ON Visitante.* TO 'trabalhador'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Inscricao.* TO 'trabalhador'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON galeria_arte.Visitante TO 'trabalhador'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON galeria_arte.Inscricao TO 'trabalhador'@'localhost';
